@@ -47,6 +47,7 @@ task:
 #      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
       - repo sync -c -j8 --force-sync --no-clone-bundle --no-tags
       - sed -i 's| -u||g' vendor/qassa/config/branding.mk
+      - rm -rf kernel/xiaomi/msm8998 && git clone --recurse-submodules -b 10-su https://github.com/deny2311/kernel_xiaomi_msm8998-10.git kernel/xiaomi/msm8998 && rm -rf system/extras/su
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
   Build_script:
