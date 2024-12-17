@@ -3,8 +3,8 @@ env:
     rcloneconfig: "ENCRYPTED[!a8ef11f9448e79935b12193f20ea5cc737e4d7c1277a30f9f9243864a89d0d34c3ea3aeb0108ea1fbaab091711e3b638!]"
     tokentl: "ENCRYPTED[!4e08bfb6719cf11eebdf252ad46eaf68fac38aa7651339a3b02a6722e3abfe339067b751956226e858af133a0626305c!]"
     idtl: "ENCRYPTED[!ada2145d95983d2e2a41ae80fa27318da5a8980170db84992d9235c4dbcd190374eeeb76f47c815ab2ed55ddd087637d!]"
-    lunch: lunch qassa_sagit-user
-    make: make qassa
+    lunch: lunch aosp_X00TD-userdebug
+    make: m aex
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -40,14 +40,14 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/keepQASSA/manifest.git -b Q -g default,-mips,-darwin,-notdefault
-      - git clone --depth 1 https://github.com/deny2311/local_manifest.git -b qassa-sagit .repo/local_manifests
+      - repo init --depth=1 -u https://github.com/AospExtended/manifest.git -b 11.x
+      - git clone --depth=1 https://github.com/texascake/local_manifest.git -b 11 .repo/local_manifests
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
-      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
+#      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
 #      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
       - repo sync -c -j8 --force-sync --no-clone-bundle --no-tags
-      - sed -i 's| -u||g' vendor/qassa/config/branding.mk
-      - rm -rf kernel/xiaomi/msm8998 && git clone --recurse-submodules -b 10-su https://github.com/deny2311/kernel_xiaomi_msm8998-10.git kernel/xiaomi/msm8998 && rm -rf system/extras/su
+#      - sed -i 's| -u||g' vendor/qassa/config/branding.mk
+#      - rm -rf kernel/xiaomi/msm8998 && git clone --recurse-submodules -b 10-su https://github.com/deny2311/kernel_xiaomi_msm8998-10.git kernel/xiaomi/msm8998 && rm -rf system/extras/su
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
   Build_script:
@@ -57,10 +57,10 @@ task:
       - export KBUILD_BUILD_HOST="deny"
 #      - export WITH_GAPPS=true
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build qassa for sagit Started!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build AEX for X00TD Started!"
       - ./collect.sh
 #      - ./final.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/sagit/ && ls qassa*.zip) Completed!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/X00TD/ && ls Aosp*.zip) Completed!"
 
   Upload_script:
       - ./upload.sh
